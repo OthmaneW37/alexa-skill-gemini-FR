@@ -1,0 +1,55 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "mon assistant",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": [
+                        "annuler",
+                        "annule",
+                        "laisse tomber"
+                    ]
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": [
+                        "aide",
+                        "aide moi",
+                        "qu'est ce que tu sais faire"
+                    ]
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": [
+                        "stop",
+                        "arrête",
+                        "cesse"
+                    ]
+                },
+                {
+                    "name": "AskGeminiIntent",
+                    "slots": [
+                        {
+                            "name": "question",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "demande à gemini {question}",
+                        "je veux savoir {question}",
+                        "dis moi {question}",
+                        "explique moi {question}",
+                        "question {question}",
+                        "cherche {question}",
+                        "au sujet de {question}",
+                        "peux tu me dire {question}",
+                        "c'est quoi {question}",
+                        "comment faire pour {question}"
+                    ]
+                }
+            ],
+            "types": []
+        }
+    }
+}

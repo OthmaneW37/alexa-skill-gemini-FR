@@ -1,36 +1,109 @@
-# Alexa Skill - Chat with Gemini
-### Alexa Skill Template to Integrate Google Gemini on Alexa Devices
+# Alexa Skill with Gemini Pro - French Version
 
-**Credit to [Scintilla Hub](https://www.youtube.com/@scintillahub)**
+This repository contains the complete source code for an Alexa skill that integrates with Google's Gemini Pro API. This skill allows you to have a powerful conversational assistant, capable of answering a wide range of questions, directly on your Alexa devices.
 
-## Requirements
-* With a Google account, generate an authentication key at [Google AI Developer](https://ai.google.dev/). Copy and save the key, it will only be visible at the time of creation.
-* Create an account at [Amazon](https://www.amazon.com/ap/signin?openid.pape.preferred_auth_policies=Singlefactor&clientContext=132-2293245-7926858&openid.pape.max_auth_age=7200000&openid.return_to=https%3A%2F%2Fdeveloper.amazon.com%2Falexa%2Fconsole%2Fask&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=amzn_dante_us&openid.mode=checkid_setup&marketPlaceId=ATVPDKIKX0DER&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&) and log into _Alexa Developer Console_.
-## Creating the Alexa Skill
-Create an Alexa-hosted Skill (Python) on Alexa: (_Create Skill_)
+This project has been corrected, improved, and is ready for deployment.
 
-1. Name your Skill: Choose a name of your choice, e.g., Chat with Gemini
-2. Choose a primary locale, e.g., Portuguese (BR)
-3. Click _Next_. In Experience Type, select: Other > Custom > _Alexa-hosted (Python)_
-4. _Hosting region_: You can leave the default _US East (N. Virginia)_
-5. In _Templates_: Click _Import Skill_
-6. Enter the repository address: https://github.com/WandLZhang/alexa-skill-gemini.git and confirm.
+## Features
 
-## Configuring the Skill
-When you finish importing _Invocations_ > _Skill Invocation Name_:
-1. Edit _Skill Invocation Name_. This will be the invoking command for your skill. Pay attention to word requirements and restrictions.
-2. Click _Save_
-3. Build the Skill by clicking _Build Skill_. When finished, go to the tab **Code**
-4. Create a file inside the Lambda folder called _.env_ and add the line, adding the generated API key:
-   ```shell
-   GOOGLE_API_KEY=SuaApiKeyGoogleAI
-   ```
-5. Click _Save_ and then click _Deploy_
-   
-## Test the Skill
-When _deploy_ finishes, go to the tab **Test**:
-1. In _Skill testing is enabled in_, turn it from _Off_ to _Development_
-2. To use voice commands, accept the website's request to use the microphone, and to speak, click and hold the mic icon, and release to send
-3. Use the configured activation command to start the Skill, and you're ready to interact with Gemini via Alexa!
+-   **Conversational AI**: Interact with the powerful Gemini Pro model.
+-   **Robust Error Handling**: The skill is designed to handle errors gracefully.
+-   **Easy to Deploy**: Follow the steps below to get your skill up and running in minutes.
+-   **Bilingual Support**: Configured for French (`fr-FR`) and English (`en-US`), with French as the primary language.
 
-The Skill will now be available on all Alexa devices linked to your account.
+## Prerequisites
+
+Before you begin, you will need:
+
+1.  **An Amazon Developer Account**: To create the Alexa skill.
+2.  **An AWS Account**: To host the Lambda function that will run the skill's backend.
+3.  **A Google Cloud Platform (GCP) Account**: To obtain a Gemini API key.
+    -   **Important**: You must have an active billing account on GCP for the API key to work. The free tier is generous, but a valid payment method is required.
+
+---
+
+## Step-by-Step Installation
+
+### Step 1: Get a Google Gemini API Key
+
+1.  Go to the [Google Cloud Console](https://console.cloud.google.com/).
+2.  Create a new project or select an existing one.
+3.  Enable the **"Vertex AI API"** for your project.
+4.  Go to **Credentials** and create a new **API Key**.
+5.  **Copy this key securely**. You will need it in the next steps.
+
+### Step 2: Configure the Lambda Function on AWS
+
+1.  **Clone this repository**:
+    ```bash
+    git clone https://github.com/OthmaneW37/alexa-skill-gemini-FR.git
+    cd alexa-skill-gemini-FR
+    ```
+
+2.  **Prepare the deployment package**:
+    -   Navigate to the `lambda` directory.
+    -   Install the dependencies in a new `package` directory:
+        ```bash
+        pip install -r requirements.txt -t ./package
+        ```
+    -   Copy the content of the `lambda` directory into the `package` directory:
+        ```bash
+        cp lambda_function.py utils.py ./package/
+        ```
+    -   Create a ZIP file from the `package` directory's content:
+        ```bash
+        cd package
+        zip -r ../lambda_deployment_package.zip .
+        ```
+
+3.  **Create the Lambda Function**:
+    -   Go to the [AWS Lambda Console](https://console.aws.amazon.com/lambda/).
+    -   Click **"Create function"**.
+    -   Select **"Author from scratch"**.
+    -   **Function name**: `alexa-skill-gemini-fr` (or a name of your choice).
+    -   **Runtime**: **Python 3.9** (or a more recent version).
+    -   **Architecture**: `x86_64`.
+    -   Click **"Create function"**.
+
+4.  **Upload the code and configure the environment**:
+    -   In the **"Code source"** section, click **"Upload from"** and select **".zip file"**. Upload the `lambda_deployment_package.zip` file you created.
+    -   Go to the **"Configuration"** tab, then **"Environment variables"**.
+    -   Add a new variable:
+        -   **Key**: `GOOGLE_API_KEY`
+        -   **Value**: *Paste the Gemini API key you obtained earlier.*
+
+5.  **Add the Alexa Trigger**:
+    -   In the function's overview, click **"Add trigger"**.
+    -   Select **"Alexa Skills Kit"**.
+    -   You will need to provide your Skill ID later. You can leave this for now and come back to it.
+    -   Copy the **ARN** of your Lambda function (at the top right). You will need it for the Alexa skill configuration.
+
+### Step 3: Create the Alexa Skill
+
+1.  Go to the [Alexa Developer Console](https://developer.amazon.com/alexa/console/ask).
+2.  Click **"Create Skill"**.
+3.  **Skill name**: "Assistant Gemini".
+4.  **Primary locale**: French (France).
+5.  **Choose a model**: **Custom**.
+6.  **Choose a method to host**: **Provision your own**.
+7.  Click **"Create Skill"**.
+
+8.  **Configure the Endpoint**:
+    -   Go to the **"Endpoint"** section.
+    -   Select **"AWS Lambda ARN"**.
+    -   Paste the ARN of your Lambda function in the **"Default Region"** field.
+
+9.  **Build the Interaction Model**:
+    -   Go to the **"Interaction Model"** section, then **"JSON Editor"**.
+    -   Drag and drop the `interactionModels/custom/fr-FR.json` file from this repository into the editor.
+    -   Click **"Save Model"**, then **"Build Model"**. This may take a few minutes.
+
+### Step 4: Test Your Skill
+
+1.  In the Alexa Developer Console, go to the **"Test"** tab.
+2.  Enable testing for **"Development"**.
+3.  You can now interact with your skill:
+    -   **Start the skill**: "Ouvre mon assistant" (or the invocation name you chose).
+    -   **Ask a question**: "explique-moi la a a théorie de la relativité".
+
+Congratulations! Your Alexa skill powered by Gemini is now functional.
