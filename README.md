@@ -107,3 +107,30 @@ Before you begin, you will need:
     -   **Ask a question**: "explique-moi la a a théorie de la relativité".
 
 Congratulations! Your Alexa skill powered by Gemini is now functional.
+
+---
+
+## Troubleshooting
+
+### `Erreur Google : 404` dans la console de test Alexa
+
+C'est l'erreur la plus courante et elle indique presque toujours un problème avec votre **clé API Google**. Voici comment la résoudre :
+
+1.  **Vérifiez la clé API** :
+    *   Assurez-vous que la clé que vous avez copiée dans la variable d'environnement `GOOGLE_API_KEY` de votre fonction Lambda est **exactement** la même que celle de votre console Google Cloud. Il ne doit y avoir aucun caractère manquant ou supplémentaire.
+
+2.  **Activez la bonne API** :
+    *   Dans votre projet Google Cloud, vérifiez que l'**"API Vertex AI"** est bien activée. Si elle ne l'est pas, la clé ne sera pas autorisée à effectuer des appels.
+
+3.  **Vérifiez les restrictions de la clé API** :
+    *   Dans la console Google Cloud, sous **"Identifiants"**, vérifiez si votre clé API a des restrictions (par exemple, limitée à certaines adresses IP ou à des referrers HTTP).
+    *   Pour un environnement Lambda, il est souvent plus simple de n'avoir **aucune restriction**. Pour les tests, supprimer les restrictions est le moyen le plus rapide de confirmer si c'est la source du problème.
+
+4.  **Compte de facturation** :
+    *   L'accès à l'API Gemini nécessite un **compte de facturation actif** associé à votre projet Google Cloud, même si vous êtes dans les limites du niveau gratuit. Assurez-vous d'avoir un moyen de paiement valide configuré.
+
+### Le déploiement échoue dans la console Alexa
+
+Si votre code ne se déploie pas après avoir modifié le fichier `lambda/requirements.txt`, c'est probablement parce que l'environnement de déploiement d'Alexa Skills Kit est très strict.
+
+*   **Solution** : N'ajoutez pas de bibliothèques complexes comme `google-generativeai`. Le projet est conçu pour fonctionner avec la bibliothèque `requests`, qui est fiable. Tenez-vous-en au fichier `requirements.txt` fourni.
