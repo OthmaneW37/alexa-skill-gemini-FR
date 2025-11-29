@@ -12,7 +12,8 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 # --- CONFIGURATION ---
-GOOGLE_API_KEY = "AIzaSyBlDP-UABKY2IhCiiV3OaJcYI_SSricK5U"
+# Récupération sécurisée de la clé API depuis les variables d'environnement
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
 
 # Dernière tentative avec le modèle gemini-1.5-flash
 GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GOOGLE_API_KEY}"
